@@ -13,9 +13,9 @@ type LinkItem = {
 };
 
 const links: LinkItem[] = [
-  { id: "github", label: "GitHub", description: "만드는 것들과 코드 기록", href: "https://github.com", mark: "GH", tone: "lime" },
-  { id: "linkedin", label: "LinkedIn", description: "프로필과 커리어 기록", href: "https://www.linkedin.com", mark: "in", tone: "blue" },
-  { id: "blog", label: "Blog", description: "생각을 천천히 적는 곳", href: "https://medium.com", mark: "B", tone: "blue" },
+  { id: "github", label: "깃허브", description: "만드는 것들과 코드 기록", href: "https://github.com/[chae.hi@gmail.com]", mark: "GH", tone: "lime" },
+  { id: "blog", label: "블로그", description: "스마트일렉트로닉스", href: "https://www.smart-ele.co.kr", mark: "B", tone: "blue" },
+  { id: "email", label: "이메일", description: "chae.hi@gmail.com", href: "mailto:chae.hi@gmail.com", mark: "@", tone: "blue" },
 ];
 
 const countsKey = "linknamu:click-counts";
@@ -93,14 +93,14 @@ export default function Home() {
             <div
               className="avatar"
               role="img"
-              aria-label="채홍일 프로필 사진 (더미 이미지)"
-              style={{ backgroundImage: "url(https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=320&q=85)" }}
+              aria-label="Hong Il Chae 프로필 사진"
+              style={{ backgroundImage: 'url("/채홍일 님.jpg")' }}
             />
             <span className="avatar-stamp" aria-hidden="true">✳</span>
           </div>
           <p className="profile-kicker">CREATOR · DEVELOPER</p>
-          <h1 id="profile-name">채홍일</h1>
-          <p className="profile-bio">세계 최강 바이브코더</p>
+          <h1 id="profile-name">Hong Il Chae</h1>
+          <p className="profile-bio">Claude Code에 관심이 많아요</p>
           <div className="profile-actions">
             <span className="location-note"><span className="live-dot" aria-hidden="true" />ONLINE, MAKING THINGS</span>
             <button className="share-button" type="button" onClick={copyPageLink} aria-label="프로필 링크 복사" title={copied ? "복사 완료" : "프로필 링크 복사"}>

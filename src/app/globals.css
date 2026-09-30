@@ -4,28 +4,32 @@
 
 :root {
   color-scheme: light;
-  --canvas: #f3f5ef;
-  --paper: #ffffff;
-  --ink: #222820;
-  --muted: #81877c;
-  --line: #e4e8df;
-  --accent: #d9ef91;
-  --accent-ink: #334026;
-  --coral: #ed826e;
-  --shadow: 0 16px 42px rgb(36 45 31 / 7%);
+  --canvas: #fff8ef;
+  --canvas-mid: #fbefe5;
+  --canvas-end: #f4dfd2;
+  --paper: rgb(255 255 255 / 54%);
+  --ink: #382f2b;
+  --muted: #8a7770;
+  --line: rgb(255 255 255 / 78%);
+  --accent: #e9c2aa;
+  --accent-ink: #5b3d32;
+  --coral: #c77d62;
+  --shadow: 0 18px 48px rgb(102 67 49 / 10%);
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --canvas: #171b18;
-  --paper: #212722;
-  --ink: #f0f2eb;
-  --muted: #a1a99d;
-  --line: #343c34;
-  --accent: #d6ed8b;
-  --accent-ink: #28311f;
-  --coral: #f1927e;
-  --shadow: 0 16px 42px rgb(0 0 0 / 19%);
+  --canvas: #211c1a;
+  --canvas-mid: #2c2421;
+  --canvas-end: #382a26;
+  --paper: rgb(255 248 239 / 7%);
+  --ink: #f7eee7;
+  --muted: #b8a69c;
+  --line: rgb(255 248 239 / 12%);
+  --accent: #9c6650;
+  --accent-ink: #fff2e8;
+  --coral: #e4a184;
+  --shadow: 0 18px 48px rgb(0 0 0 / 22%);
 }
 
 * {
@@ -41,11 +45,10 @@ body {
   min-height: 100vh;
   margin: 0;
   color: var(--ink);
-  background-color: var(--canvas);
-  background-image: radial-gradient(rgb(69 81 56 / 10%) 0.65px, transparent 0.65px);
-  background-size: 18px 18px;
-  font-family: var(--font-geist-sans), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  font-size: 24px;
+  background: linear-gradient(132deg, var(--canvas) 8%, var(--canvas-mid) 48%, var(--canvas-end) 100%);
+  background-attachment: fixed;
+  font-family: Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", var(--font-geist-sans), sans-serif;
+  font-size: 16px;
   transition: background-color 180ms ease, color 180ms ease;
 }
 
@@ -81,12 +84,12 @@ a:focus-visible {
 }
 
 .wordmark {
-  font-size: 31.5px;
-  font-weight: 850;
+  font-size: 28px;
+  font-weight: 760;
 }
 
 .wordmark-leaf {
-  color: #81a53c;
+  color: var(--coral);
 }
 
 .topbar-tools {
@@ -118,6 +121,7 @@ a:focus-visible {
   border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--paper);
+  backdrop-filter: blur(12px);
   cursor: pointer;
   transition: transform 160ms ease, border-color 160ms ease, background-color 180ms ease;
 }
@@ -134,8 +138,8 @@ a:focus-visible {
 }
 
 .profile-page {
-  width: min(100%, 460px);
-  margin: 54px auto 38px;
+  width: min(100%, 480px);
+  margin: 48px auto 38px;
 }
 
 .profile-intro {
@@ -149,20 +153,20 @@ a:focus-visible {
 
 .avatar-wrap {
   position: relative;
-  width: 252px;
-  height: 252px;
-  margin-bottom: 22px;
+  width: 376px;
+  height: 376px;
+  margin-bottom: 25px;
 }
 
 .avatar {
   width: 100%;
   height: 100%;
-  border: 5px solid var(--paper);
+  border: 5px solid rgb(255 255 255 / 82%);
   border-radius: 50%;
   background-color: #c9d6b5;
-  background-position: center 42%;
+  background-position: center 22%;
   background-size: cover;
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 24px rgb(88 58 42 / 12%), 0 28px 55px rgb(88 58 42 / 10%);
 }
 
 .avatar-stamp {
@@ -173,31 +177,31 @@ a:focus-visible {
   width: 34px;
   height: 34px;
   place-items: center;
-  border: 3px solid var(--canvas);
+  border: 3px solid var(--canvas-end);
   border-radius: 50%;
-  background: var(--accent);
+  background: #f3d6c3;
   color: var(--accent-ink);
-  font-size: 25.5px;
+  font-size: 24px;
 }
 
 .profile-kicker {
   margin: 0 0 8px;
-  color: #799344;
-  font-size: 15px;
-  font-weight: 800;
+  color: var(--coral);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .profile-intro h1 {
   margin: 0;
-  font-size: 46.5px;
-  font-weight: 780;
+  font-size: 40px;
+  font-weight: 720;
   line-height: 1.25;
 }
 
 .profile-bio {
-  margin: 9px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
-  font-size: 22.5px;
+  font-size: 17px;
 }
 
 .profile-actions {
@@ -205,7 +209,7 @@ a:focus-visible {
   height: 40px;
   align-items: center;
   gap: 13px;
-  margin-top: 22px;
+  margin-top: 19px;
 }
 
 .location-note {
@@ -219,8 +223,8 @@ a:focus-visible {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #81a53c;
-  box-shadow: 0 0 0 3px color-mix(in srgb, #81a53c 16%, transparent);
+  background: #83a17c;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #83a17c 18%, transparent);
 }
 
 .share-button {
@@ -242,7 +246,7 @@ a:focus-visible {
 }
 
 .links-section {
-  margin-top: 49px;
+  margin-top: 54px;
 }
 
 .section-heading {
@@ -254,8 +258,8 @@ a:focus-visible {
 
 .section-heading h2 {
   margin: 0;
-  font-size: 27px;
-  font-weight: 750;
+  font-size: 21px;
+  font-weight: 700;
 }
 
 .section-heading > span {
@@ -264,7 +268,7 @@ a:focus-visible {
 
 .link-list {
   display: grid;
-  gap: 11px;
+  gap: 13px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -276,22 +280,23 @@ a:focus-visible {
 
 .link-card {
   display: grid;
-  min-height: 82px;
+  min-height: 84px;
   grid-template-columns: 46px minmax(0, 1fr) auto 16px;
   align-items: center;
-  gap: 13px;
-  padding: 13px 16px;
+  gap: 15px;
+  padding: 15px 18px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   background: var(--paper);
-  box-shadow: 0 4px 15px rgb(36 45 31 / 3%);
-  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background-color 180ms ease;
+  box-shadow: 0 8px 24px rgb(102 67 49 / 5%);
+  backdrop-filter: blur(16px) saturate(125%);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
 }
 
 .link-card:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--ink) 30%, var(--line));
-  box-shadow: var(--shadow);
+  border-color: color-mix(in srgb, var(--coral) 35%, var(--line));
+  box-shadow: 0 13px 30px rgb(102 67 49 / 9%);
 }
 
 .link-mark {
@@ -299,9 +304,9 @@ a:focus-visible {
   width: 44px;
   height: 44px;
   place-items: center;
-  border-radius: 7px;
-  font-size: 18px;
-  font-weight: 850;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 750;
 }
 
 .link-mark.lime {
@@ -320,8 +325,8 @@ a:focus-visible {
 }
 
 .link-mark.blue {
-  background: #d8e6ef;
-  color: #315266;
+  background: #e7d8ce;
+  color: #745447;
 }
 
 .link-copy {
@@ -332,8 +337,8 @@ a:focus-visible {
 
 .link-title {
   overflow: hidden;
-  font-size: 21px;
-  font-weight: 750;
+  font-size: 17px;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -341,7 +346,7 @@ a:focus-visible {
 .link-description {
   overflow: hidden;
   color: var(--muted);
-  font-size: 16.5px;
+  font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -355,14 +360,14 @@ a:focus-visible {
 
 .link-count strong {
   color: var(--ink);
-  font-size: 19.5px;
+  font-size: 16px;
   font-variant-numeric: tabular-nums;
 }
 
 .link-arrow {
   align-self: start;
   color: var(--muted);
-  font-size: 19.5px;
+  font-size: 16px;
   transition: color 160ms ease, transform 160ms ease;
 }
 
@@ -372,9 +377,9 @@ a:focus-visible {
 }
 
 .links-footnote {
-  margin: 15px 0 0;
+  margin: 18px 0 0;
   color: var(--muted);
-  font-size: 16.5px;
+  font-size: 13px;
   text-align: center;
 }
 
@@ -383,8 +388,8 @@ a:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 56px;
-  padding: 19px 0;
+  margin-top: 48px;
+  padding: 17px 0;
   border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
   color: var(--muted);
   font-size: 13.5px;
@@ -420,22 +425,41 @@ a:focus-visible {
   }
 
   .profile-page {
-    margin-top: 40px;
+    margin-top: 32px;
   }
 
   .links-section {
-    margin-top: 45px;
+    margin-top: 43px;
   }
 
   .link-card {
-    grid-template-columns: 42px minmax(0, 1fr) auto 12px;
-    gap: 10px;
-    padding: 12px;
+    grid-template-columns: 40px minmax(0, 1fr) auto 12px;
+    gap: 11px;
+    padding: 12px 13px;
+    border-radius: 16px;
   }
 
   .link-mark {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .link-count > span {
+    font-size: 10px;
+  }
+
+  .profile-intro h1 {
+    font-size: 34px;
+  }
+
+  .avatar-wrap {
+    width: 320px;
+    height: 320px;
+  }
+
+  .page-footer {
+    gap: 8px;
+    font-size: 11px;
   }
 }
 
