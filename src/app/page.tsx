@@ -2,46 +2,40 @@
 
 import { useEffect, useState } from "react";
 
+import { formatLinkCount, LINK_DEFS, normalizeLinkCounts } from "@/lib/linkClicks";
+
 type Theme = "light" | "dark";
-type LinkItem = {
-  id: string;
-  label: string;
-  description: string;
-  href: string;
-  mark: string;
-  tone: string;
-};
 
-const links: LinkItem[] = [
-  { id: "github", label: "깃허브", description: "만드는 것들과 코드 기록", href: "https://github.com/[chae.hi@gmail.com]", mark: "GH", tone: "lime" },
-  { id: "blog", label: "블로그", description: "스마트일렉트로닉스", href: "https://www.smart-ele.co.kr", mark: "B", tone: "blue" },
-  { id: "email", label: "이메일", description: "chae.hi@gmail.com", href: "mailto:chae.hi@gmail.com", mark: "@", tone: "blue" },
-];
-
-const countsKey = "linknamu:click-counts";
 const themeKey = "linknamu:theme";
 
 export default function Home() {
   const [theme, setTheme] = useState<Theme>("light");
-  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [counts, setCounts] = useState<Record<string, number>>(() => normalizeLinkCounts());
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem(themeKey);
-    const savedCounts = window.localStorage.getItem(countsKey);
 
     if (savedTheme === "dark" || savedTheme === "light") {
       setTheme(savedTheme);
       document.documentElement.dataset.theme = savedTheme;
     }
 
-    if (savedCounts) {
+    const loadCounts = async () => {
       try {
-        setCounts(JSON.parse(savedCounts) as Record<string, number>);
+        const response = await fetch("/api/links");
+        if (!response.ok) {
+          throw new Error("Failed to fetch counts");
+        }
+
+        const payload = (await response.json()) as { counts?: Record<string, number> };
+        setCounts(normalizeLinkCounts(payload.counts));
       } catch {
-        window.localStorage.removeItem(countsKey);
+        setCounts(normalizeLinkCounts());
       }
-    }
+    };
+
+    void loadCounts();
   }, []);
 
   function toggleTheme() {
@@ -51,10 +45,39 @@ export default function Home() {
     window.localStorage.setItem(themeKey, nextTheme);
   }
 
-  function recordClick(id: string) {
-    const nextCounts = { ...counts, [id]: (counts[id] ?? 0) + 1 };
-    setCounts(nextCounts);
-    window.localStorage.setItem(countsKey, JSON.stringify(nextCounts));
+  async function recordClick(id: string) {
+    setCounts((current) => ({ ...current, [id]: (current[id] ?? 0) + 1 }));
+
+    try {
+      const response = await fetch("/api/links", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to record click");
+      }
+
+      const payload = (await response.json()) as { count?: number };
+      setCounts((current) => ({
+        ...current,
+        [id]: typeof payload.count === "number" ? payload.count : (current[id] ?? 0),
+      }));
+
+      return typeof payload.count === "number" ? payload.count : (counts[id] ?? 0);
+    } catch {
+      setCounts((current) => ({ ...current, [id]: current[id] ?? 0 }));
+      return counts[id] ?? 0;
+    }
+  }
+
+  async function handleLinkClick(event: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) {
+    event.preventDefault();
+    await recordClick(id);
+    window.open(href, "_blank", "noopener,noreferrer");
   }
 
   async function copyPageLink() {
@@ -113,20 +136,25 @@ export default function Home() {
         <section className="links-section" aria-labelledby="links-heading">
           <div className="section-heading">
             <h2 id="links-heading">내 링크</h2>
-            <span>{String(links.length).padStart(2, "0")} LINKS</span>
+            <span>{String(LINK_DEFS.length).padStart(2, "0")} LINKS</span>
           </div>
           <ul className="link-list">
-            {links.map((link, index) => (
+            {LINK_DEFS.map((link, index) => (
               <li className="link-item" key={link.id} style={{ animationDelay: `${index * 70}ms` }}>
-                <a className="link-card" href={link.href} target="_blank" rel="noreferrer" onClick={() => recordClick(link.id)}>
+                <a
+                  className="link-card"
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(event) => void handleLinkClick(event, link.href, link.id)}
+                >
                   <span className={`link-mark ${link.tone}`} aria-hidden="true">{link.mark}</span>
                   <span className="link-copy">
                     <span className="link-title">{link.label}</span>
                     <span className="link-description">{link.description}</span>
                   </span>
                   <span className="link-count" aria-label={`${counts[link.id] ?? 0}회 클릭`}>
-                    <strong>{counts[link.id] ?? 0}</strong>
-                    <span>CLICKS</span>
+                    <strong>{formatLinkCount(counts[link.id] ?? 0)}</strong>
                   </span>
                   <span className="link-arrow" aria-hidden="true">↗</span>
                 </a>
